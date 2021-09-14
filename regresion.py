@@ -30,5 +30,7 @@ def Regression():
     predicciones['x'] = X_train[:, 1]
     predicciones['y'] = y_train
     predicciones = predicciones.sort_values('x')
-    response = predicciones['mean'][0]
-    return {'Mean': response}
+    predicciones_list=predicciones.to_numpy().tolist()
+    response = predicciones_list
+    temp={"data1":response}
+    return temp
