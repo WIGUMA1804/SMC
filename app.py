@@ -7,9 +7,10 @@ import basic_statistics
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/regression', methods=['GET'])
-def estimate_regression():
-    return regresion.Regression()
+@app.route('/regression/<collection>/<var1>/<var2>', methods=['GET'])
+def estimate_regression(collection,var1,var2):
+   
+    return regresion.Regression(collection,var1,var2)
 
 # post method to test connection with bd
 @app.route('/users', methods=['POST'])

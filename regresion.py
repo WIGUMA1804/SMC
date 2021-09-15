@@ -3,13 +3,18 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
-def Regression():
-    datos="C:\DOCTORADO\SEMESTRE 7\PASANTIA\DATOS\AGOSTO-10-2021_1\SIF_401.csv"
+def Regression(collection,var1,var2):
+
+    datos= "C:\DOCTORADO\SEMESTRE 7\PASANTIA\DATOS\AGOSTO-10-2021_1\{}".format(collection)+".csv"
+    print(datos)
+    print(collection)
+    print(var1)
+    print(var2)
     data=pd.read_csv(datos)
     data.head()
     print(data.head())
-    X = data['MESPAEA_rCurrent']
-    y = data['MESPAEA_udiEnergyConsumed']
+    X = data[var1]
+    y = data[var2]
 
     X_train, X_test, y_train, y_test = train_test_split(
                                             X.values.reshape(-1,1),
