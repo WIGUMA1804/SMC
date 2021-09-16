@@ -29,6 +29,8 @@ def Regression(collection,var1,var2):
     modelo = modelo.fit()
     print(modelo.summary())     
     modelo.conf_int(alpha=0.05)   
+    recta=modelo.params
+    print(recta)
     predicciones = modelo.get_prediction(exog = X_train).summary_frame(alpha=0.05)
     print(predicciones.head(4))
     predicciones = modelo.get_prediction(exog = X_train).summary_frame(alpha=0.05)
@@ -37,5 +39,5 @@ def Regression(collection,var1,var2):
     predicciones = predicciones.sort_values('x')
     predicciones_list=predicciones.to_numpy().tolist()
     response = predicciones_list
-    temp={"data1":response}
+    temp={"data1":response,"pendiente":recta[1],"intercepto":recta[0]}
     return temp
