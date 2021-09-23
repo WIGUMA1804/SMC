@@ -1,11 +1,44 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-import statsmodels.api as sm
-import matplotlib.pyplot as plt
-def Regression(collection,var1,var2):
+from bson import json_util
+import csv
+import json
 
-    datos= "C:\DOCTORADO\SEMESTRE 7\PASANTIA\DATOS\AGOSTO-10-2021_1\{}".format(collection)+".csv"
+def Regression(collection,var1,var2, database):
+
+    # datos= "C:\DOCTORADO\SEMESTRE 7\PASANTIA\DATOS\AGOSTO-10-2021_1\{}".format(collection)+".csv"
+
+    response = ""
+    if (collection == 'SIF_401'):
+        data = database.db.SIF_401.find()
+        response = json_util.dumps(data)
+
+    # sif_401 = open('sif_401.csv', 'wb+')
+    # csv_writer = csv.writer(sif_401)
+
+    # csv_writer.writerow(["Hora", "MESPAEA_rActivePower", "MESPAEA_rAir", "MESPAEA_rCurrent", "MESPAEA_rPowerFactor",
+    # "MESPAEA_rVoltage", "MESPAEA_udiAirConsumed", "MESPAEA_udiEnergyConsumed", "SIFOC_sif401_LEC", "Segundos",
+    # "SetV_1", "SetV_2", "_id", "minutos"])
+
+    # for x in response:
+    #     csv_writer.writerow([
+    #         x["Hora"],
+    #         x["MESPAEA_rActivePower"],
+    #         x["MESPAEA_rAir"],
+    #         x["MESPAEA_rCurrent"],
+    #         x["MESPAEA_rPowerFactor"],
+    #         x["MESPAEA_rVoltage"],
+    #         x["MESPAEA_udiAirConsumed"],
+    #         x["MESPAEA_udiEnergyConsumed"],
+    #         x["SIFOC_sif401_LEC"],
+    #         x["Segundos"],
+    #         x["SetV_1"],
+    #         x["SetV_2"],
+    #         x["_id"],
+    #         x["minutos"]
+    #     ])
+    datos = response
     print(datos)
     print(collection)
     print(var1)

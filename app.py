@@ -9,8 +9,7 @@ CORS(app)
 
 @app.route('/regression/<collection>/<var1>/<var2>', methods=['GET'])
 def estimate_regression(collection,var1,var2):
-   
-    return regresion.Regression(collection,var1,var2)
+    return regresion.Regression(collection, var1, var2, database.mongo_connect(app))
 
 # post method to test connection with bd
 @app.route('/users', methods=['POST'])
