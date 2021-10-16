@@ -5,7 +5,7 @@ import regresion
 import database
 import basic_statistics
 import superset
-
+import Estadistica
 
 app = Flask(__name__)
 CORS(app)
@@ -53,6 +53,13 @@ def get_superset():
     # df_list=data.values.tolist()
     # json_data=jsonify(df_list)
     return superset.get_superset()
+
+@app.route('/estadistica', methods=['GET'])
+def get_estadistica():
+    data=Estadistica.Basic_Stats()
+    df_list=data.values.tolist()
+    json_data=jsonify(df_list)
+    return  json_data
 
 
 if __name__ == "__main__":
