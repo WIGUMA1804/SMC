@@ -6,6 +6,8 @@ import database
 import basic_statistics
 import superset
 import Estadistica
+import regresion
+import NN
 
 app = Flask(__name__)
 CORS(app)
@@ -67,7 +69,19 @@ def get_estadistica():
     # df_list=data.values.tolist()
     # json_data=jsonify(df_list)
     return data
+@app.route('/regresion', methods=['GET'])
+def get_regresion():
+    data = regresion.Regression()
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    return data
 
+@app.route('/Neural_Network', methods=['GET'])
+def get_NN():
+    data = NN.Neural_Network()
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    return data
 
 if __name__ == "__main__":
     app.run(debug=True)
