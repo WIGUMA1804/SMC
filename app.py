@@ -5,16 +5,21 @@ import regresion
 import database
 import basic_statistics
 import superset
-
+import Estadistica
+import regresion
+import NN
 
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/regression/<collection>/<var1>/<var2>', methods=['GET'])
-def estimate_regression(collection,var1,var2):
+def estimate_regression(collection, var1, var2):
     return regresion.Regression(collection, var1, var2, database.mongo_connect(app))
 
 # post method to test connection with bd
+
+
 @app.route('/users', methods=['POST'])
 def create_user():
     # Receiving data
@@ -43,9 +48,12 @@ def create_user():
     return {'message': 'received'}
 
 # get method to obtain all information related with a specific collection
+
+
 @app.route('/data/<collection_name>', methods=['GET'])
 def data_collections(collection_name):
     return basic_statistics.get_statistics(collection_name, database.mongo_connect(app))
+
 
 @app.route('/superset', methods=['GET'])
 def get_superset():
@@ -54,6 +62,26 @@ def get_superset():
     # json_data=jsonify(df_list)
     return superset.get_superset()
 
+
+@app.route('/estadistica', methods=['GET'])
+def get_estadistica():
+    data = Estadistica.Basic_Stats()
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    return data
+@app.route('/regresion', methods=['GET'])
+def get_regresion():
+    data = regresion.Regression()
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    return data
+
+@app.route('/Neural_Network', methods=['GET'])
+def get_NN():
+    data = NN.Neural_Network()
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    return data
 
 if __name__ == "__main__":
     app.run(debug=True)

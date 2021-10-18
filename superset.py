@@ -165,6 +165,7 @@ def get_superset():
                   right_on='Tiempo', how='outer')
     print(df.shape)
 
+    
     #df["Alarma_401"] = pd.get_dummies(df['Alarma_401'], prefix="Alarma_401")
     # df["Alarma_402"] = pd.get_dummies(df['Alarma_402'], prefix="Alarma_402")
     # df["Alarma_405"] = pd.get_dummies(df['Alarma_405'], prefix="Alarma_405")

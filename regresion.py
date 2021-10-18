@@ -1,76 +1,100 @@
-import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from bson import json_util
-import csv
-import json
+def Regression():
+    from scipy.stats import pearsonr
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import r2_score
+    from sklearn.metrics import mean_squared_error
+    import statsmodels.api as sm
+    import statsmodels.formula.api as smf
+    from statsmodels.stats.anova import anova_lm
+    from scipy import stats
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import pandas as pd
 
-def Regression(collection,var1,var2, database):
-
-    # datos= "C:\DOCTORADO\SEMESTRE 7\PASANTIA\DATOS\AGOSTO-10-2021_1\{}".format(collection)+".csv"
-
-    response = ""
-    if (collection == 'SIF_401'):
-        data = database.db.SIF_401.find()
-        response = json_util.dumps(data)
-
-    # sif_401 = open('sif_401.csv', 'wb+')
-    # csv_writer = csv.writer(sif_401)
-
-    # csv_writer.writerow(["Hora", "MESPAEA_rActivePower", "MESPAEA_rAir", "MESPAEA_rCurrent", "MESPAEA_rPowerFactor",
-    # "MESPAEA_rVoltage", "MESPAEA_udiAirConsumed", "MESPAEA_udiEnergyConsumed", "SIFOC_sif401_LEC", "Segundos",
-    # "SetV_1", "SetV_2", "_id", "minutos"])
-
-    # for x in response:
-    #     csv_writer.writerow([
-    #         x["Hora"],
-    #         x["MESPAEA_rActivePower"],
-    #         x["MESPAEA_rAir"],
-    #         x["MESPAEA_rCurrent"],
-    #         x["MESPAEA_rPowerFactor"],
-    #         x["MESPAEA_rVoltage"],
-    #         x["MESPAEA_udiAirConsumed"],
-    #         x["MESPAEA_udiEnergyConsumed"],
-    #         x["SIFOC_sif401_LEC"],
-    #         x["Segundos"],
-    #         x["SetV_1"],
-    #         x["SetV_2"],
-    #         x["_id"],
-    #         x["minutos"]
-    #     ])
-    datos = response
-    print(datos)
-    print(collection)
-    print(var1)
-    print(var2)
-    data=pd.read_csv(datos)
-    data.head()
-    print(data.head())
-    X = data[var1]
-    y = data[var2]
+    data_SIF_401 = pd.read_csv(
+        "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_401.csv")
+    X = data_SIF_401[['MESPAEA_rCurrent', 'SIFOC_sif401_LEC']]
+    y = data_SIF_401['MESPAEA_udiEnergyConsumed']
 
     X_train, X_test, y_train, y_test = train_test_split(
-                                            X.values.reshape(-1,1),
-                                            y.values.reshape(-1,1),
-                                            train_size   = 0.8,
-                                            random_state = 1234,
-                                            shuffle      = True
-                                        )
-    print(X_train)      
+        X,
+        y.values.reshape(-1, 1),
+        train_size=0.8,
+        random_state=1234,
+        shuffle=True
+    )
+
     X_train = sm.add_constant(X_train, prepend=True)
     modelo = sm.OLS(endog=y_train, exog=X_train,)
     modelo = modelo.fit()
-    print(modelo.summary())     
-    modelo.conf_int(alpha=0.05)   
-    recta=modelo.params
-    print(recta)
-    predicciones = modelo.get_prediction(exog = X_train).summary_frame(alpha=0.05)
-    print(predicciones.head(4))
-    predicciones = modelo.get_prediction(exog = X_train).summary_frame(alpha=0.05)
-    predicciones['x'] = X_train[:, 1]
-    predicciones['y'] = y_train
-    predicciones = predicciones.sort_values('x')
-    predicciones_list=predicciones.to_numpy().tolist()
-    response = predicciones_list
-    temp={"data1":response,"pendiente":recta[1],"intercepto":recta[0]}
-    return temp
+    print(modelo.summary())
+
+    y_train = y_train.flatten()
+    prediccion_train = modelo.predict(exog=X_train)
+    residuos_train = prediccion_train - y_train
+
+    # Gráficos
+    # ==============================================================================
+    fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(9, 8))
+
+    axes[0, 0].scatter(y_train, prediccion_train,
+                    edgecolors=(0, 0, 0), alpha=0.4)
+    axes[0, 0].plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()],
+                    'k--', color='black', lw=2)
+    axes[0, 0].set_title('Valor predicho vs valor real',
+                        fontsize=10, fontweight="bold")
+    axes[0, 0].set_xlabel('Real')
+    axes[0, 0].set_ylabel('Predicción')
+    axes[0, 0].tick_params(labelsize=7)
+
+    axes[0, 1].scatter(list(range(len(y_train))), residuos_train,
+                    edgecolors=(0, 0, 0), alpha=0.4)
+    axes[0, 1].axhline(y=0, linestyle='--', color='black', lw=2)
+    axes[0, 1].set_title('Residuos del modelo', fontsize=10, fontweight="bold")
+    axes[0, 1].set_xlabel('id')
+    axes[0, 1].set_ylabel('Residuo')
+    axes[0, 1].tick_params(labelsize=7)
+
+    sns.histplot(
+        data=residuos_train,
+        stat="density",
+        kde=True,
+        line_kws={'linewidth': 1},
+        color="firebrick",
+        alpha=0.3,
+        ax=axes[1, 0]
+    )
+
+    axes[1, 0].set_title('Distribución residuos del modelo', fontsize=10,
+                        fontweight="bold")
+    axes[1, 0].set_xlabel("Residuo")
+    axes[1, 0].tick_params(labelsize=7)
+
+    sm.qqplot(
+        residuos_train,
+        fit=True,
+        line='q',
+        ax=axes[1, 1],
+        color='firebrick',
+        alpha=0.4,
+        lw=2
+    )
+    axes[1, 1].set_title('Q-Q residuos del modelo',
+                        fontsize=10, fontweight="bold")
+    axes[1, 1].tick_params(labelsize=7)
+
+axes[2, 0].scatter(prediccion_train, residuos_train,
+                   edgecolors=(0, 0, 0), alpha=0.4)
+axes[2, 0].axhline(y=0, linestyle='--', color='black', lw=2)
+axes[2, 0].set_title('Residuos del modelo vs predicción',
+                     fontsize=10, fontweight="bold")
+axes[2, 0].set_xlabel('Predicción')
+axes[2, 0].set_ylabel('Residuo')
+axes[2, 0].tick_params(labelsize=7)
+
+# Se eliminan los axes vacíos
+fig.delaxes(axes[2, 1])
+
+fig.tight_layout()
+plt.subplots_adjust(top=0.9)
+fig.suptitle('Diagnóstico residuos', fontsize=12, fontweight="bold")
