@@ -7,20 +7,28 @@ def minmax_norm(df_input):
     return (df_input - df_input.min()) / (df_input.max() - df_input.min())
 
 
-def get_superset():
+def get_superset(database):
 
-    data_SIF_401 = pd.read_csv(
-        "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_401.csv")
-    data_SIF_402 = pd.read_csv(
-        "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_402.csv")
-    data_SIF_405 = pd.read_csv(
-        "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_405.csv")
-    data_SIF_407 = pd.read_csv(
-        "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_407.csv")
-    data_SIF_408 = pd.read_csv(
-        "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_408.csv")
-    data_SIF_409 = pd.read_csv(
-        "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_409.csv")
+    # data_SIF_401 = pd.read_csv(
+    #     "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_401.csv")
+    # data_SIF_402 = pd.read_csv(
+    #     "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_402.csv")
+    # data_SIF_405 = pd.read_csv(
+    #     "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_405.csv")
+    # data_SIF_407 = pd.read_csv(
+    #     "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_407.csv")
+    # data_SIF_408 = pd.read_csv(
+    #     "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_408.csv")
+    # data_SIF_409 = pd.read_csv(
+    #     "C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_409.csv")
+
+    data_SIF_401 = database.db.SIF_401.find()
+    data_SIF_402 = database.db.SIF_402.find()
+    data_SIF_405 = database.db.SIF_405.find()
+    data_SIF_407 = database.db.SIF_407.find()
+    data_SIF_408 = database.db.SIF_408.find()
+    data_SIF_409 = database.db.SIF_409.find()
+
     data_SIF_401['Time'] = [pd.to_datetime(d) for d in data_SIF_401['Time']]
 
     columns = ['MESPAEA_rActivePower', 'MESPAEA_rVoltage',
@@ -164,29 +172,6 @@ def get_superset():
     df = pd.merge(df, scaled_df_409, left_on='Tiempo',
                   right_on='Tiempo', how='outer')
     print(df.shape)
-
-    
-    #df["Alarma_401"] = pd.get_dummies(df['Alarma_401'], prefix="Alarma_401")
-    # df["Alarma_402"] = pd.get_dummies(df['Alarma_402'], prefix="Alarma_402")
-    # df["Alarma_405"] = pd.get_dummies(df['Alarma_405'], prefix="Alarma_405")
-    # df["Alarma_407"] = pd.get_dummies(df['Alarma_407'], prefix="Alarma_407")
-    # df["Alarma_408"] = pd.get_dummies(df['Alarma_408'], prefix="Alarma_408")
-    # df["Alarma_409"] = pd.get_dummies(df['Alarma_409'], prefix="Alarma_409")
-
-
-
-    # df["SIFOC_sif405_V1"] = pd.get_dummies(
-    # df['SIFOC_sif405_V1'], prefix="SIFOC_sif405_V1")
-    # df["SIFOC_sif405_V2"] = pd.get_dummies(
-    #     df['SIFOC_sif405_V2'], prefix="SIFOC_sif405_V2")
-    # df["SIFOC_sif407_V1"] = pd.get_dummies(
-    #     df['SIFOC_sif407_V1'], prefix="SIFOC_sif407_V1")
-    # df["SIFOC_sif407_V2"] = pd.get_dummies(
-    #     df['SIFOC_sif407_V2'], prefix="SIFOC_sif407_V2")
-    # df["SIFOC_sif407_V3"] = pd.get_dummies(
-    #     df['SIFOC_sif407_V3'], prefix="SIFOC_sif407_V3")
-
-
 
     data_dict = dict()
     for col in df.columns:
