@@ -8,6 +8,7 @@ import superset
 import Estadistica
 import regresion
 import NN
+import superset1
 
 app = Flask(__name__)
 CORS(app)
@@ -55,12 +56,12 @@ def data_collections(collection_name):
     return basic_statistics.get_statistics(collection_name, database.mongo_connect(app))
 
 
-@app.route('/superset', methods=['GET'])
-def get_superset():
+#@app.route('/superset', methods=['GET'])
+#def get_superset():
     # data=superset.get_superset()
     # df_list=data.values.tolist()
     # json_data=jsonify(df_list)
-    return superset.get_superset()
+    #return superset.get_superset()
 
 
 @app.route('/estadistica', methods=['GET'])
@@ -82,6 +83,12 @@ def get_NN():
     # df_list=data.values.tolist()
     # json_data=jsonify(df_list)
     return data
+@app.route('/superset', methods=['GET'])
+def get_superset():
+    # data=superset.get_superset()
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    return superset1.superset1(database.mongo_connect(app))
 
 if __name__ == "__main__":
     app.run(debug=True)

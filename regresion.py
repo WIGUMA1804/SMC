@@ -83,18 +83,18 @@ def Regression():
                         fontsize=10, fontweight="bold")
     axes[1, 1].tick_params(labelsize=7)
 
-axes[2, 0].scatter(prediccion_train, residuos_train,
-                   edgecolors=(0, 0, 0), alpha=0.4)
-axes[2, 0].axhline(y=0, linestyle='--', color='black', lw=2)
-axes[2, 0].set_title('Residuos del modelo vs predicción',
-                     fontsize=10, fontweight="bold")
-axes[2, 0].set_xlabel('Predicción')
-axes[2, 0].set_ylabel('Residuo')
-axes[2, 0].tick_params(labelsize=7)
+    axes[2, 0].scatter(prediccion_train, residuos_train,
+                    edgecolors=(0, 0, 0), alpha=0.4)
+    axes[2, 0].axhline(y=0, linestyle='--', color='black', lw=2)
+    axes[2, 0].set_title('Residuos del modelo vs predicción',
+                        fontsize=10, fontweight="bold")
+    axes[2, 0].set_xlabel('Predicción')
+    axes[2, 0].set_ylabel('Residuo')
+    axes[2, 0].tick_params(labelsize=7)
 
-# Se eliminan los axes vacíos
-fig.delaxes(axes[2, 1])
+    # Se eliminan los axes vacíos
+    fig.delaxes(axes[2, 1])
 
-fig.tight_layout()
-plt.subplots_adjust(top=0.9)
-fig.suptitle('Diagnóstico residuos', fontsize=12, fontweight="bold")
+    fig.tight_layout()
+    plt.subplots_adjust(top=0.9)
+    fig.suptitle('Diagnóstico residuos', fontsize=12, fontweight="bold")
