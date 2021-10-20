@@ -1,7 +1,6 @@
 def Neural_Network():
     import pandas as pd
     import numpy as np
-    
     from sklearn.neural_network import MLPRegressor
     data_SIF_401=pd.read_csv("C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_401.csv")
     x = data_SIF_401[['MESPAEA_rCurrent_401','SIFOC_sif401_LEC']]
@@ -16,3 +15,31 @@ def Neural_Network():
         print(mlr.score(X_train,y_train))
         if mlr.score(X_train,y_train)>0.95:
             break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

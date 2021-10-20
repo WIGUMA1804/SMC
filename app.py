@@ -8,6 +8,7 @@ import superset
 import Estadistica
 import regresion
 import NN
+import superset1
 import manage_superset
 
 app = Flask(__name__)
@@ -82,6 +83,12 @@ def get_NN():
     # df_list=data.values.tolist()
     # json_data=jsonify(df_list)
     return data
+@app.route('/superset', methods=['GET'])
+def get_superset():
+    # data=superset.get_superset()
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    return superset1.superset1(database.mongo_connect(app))
 
 @app.route('/superset', methods=['GET'])
 def get_collections():
