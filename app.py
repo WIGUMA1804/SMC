@@ -55,12 +55,12 @@ def data_collections(collection_name):
     return basic_statistics.get_statistics(collection_name, database.mongo_connect(app))
 
 
-@app.route('/superset', methods=['GET'])
-def get_superset():
-    # data=superset.get_superset()
-    # df_list=data.values.tolist()
-    # json_data=jsonify(df_list)
-    return superset.get_superset(database.mongo_connect(app))
+# @app.route('/ ', methods=['GET'])
+# def get_superset():
+#     # data=superset.get_superset()
+#     # df_list=data.values.tolist()
+#     # json_data=jsonify(df_list)
+#     return superset.get_superset(database.mongo_connect(app))
 
 
 @app.route('/estadistica', methods=['GET'])
@@ -83,10 +83,11 @@ def get_NN():
     # json_data=jsonify(df_list)
     return data
 
-# @app.route('/superset', methods=['GET'])
-# def get_collections():
-#     data = manage_superset.get_collections_superset(database.mongo_connect(app))
-#     return data
+@app.route('/superset', methods=['GET'])
+def get_collections():
+    return manage_superset.get_collections_superset(database.mongo_connect(app))
+    # data.headers.add('Access-Control-Allow-Origin', '*')
+    # return data
 
 if __name__ == "__main__":
     app.run(debug=True)
