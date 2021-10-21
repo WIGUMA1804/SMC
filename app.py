@@ -90,11 +90,11 @@ def get_superset():
     # json_data=jsonify(df_list)
     return superset1.superset1(database.mongo_connect(app))
 
-@app.route('/superset', methods=['GET'])
-def get_collections():
-    return manage_superset.get_collections_superset(database.mongo_connect(app))
-    # data.headers.add('Access-Control-Allow-Origin', '*')
-    # return data
+# @app.route('/superset', methods=['GET'])
+# def get_collections():
+#     return manage_superset.get_collections_superset(database.mongo_connect(app))
+#     # data.headers.add('Access-Control-Allow-Origin', '*')
+#     # return data
 
 if __name__ == "__main__":
     app.run(debug=True)

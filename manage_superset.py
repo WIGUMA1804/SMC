@@ -112,7 +112,7 @@ def get_collections_superset(database):
 
     scaled_df_409['Alarma_409'] = df_sifoc_409['Alarma']
     scaled_df_409['MESPAEA_rCurrent_409'] = df_sifoc_409['MESPAEA_rCurrent']
-    scaled_df_408['MESPAEA_rPowerFactor_409'] = df_sifoc_409['MESPAEA_rPowerFactor']
+    scaled_df_409['MESPAEA_rPowerFactor_409'] = df_sifoc_409['MESPAEA_rPowerFactor']
     scaled_df_409['SIFOC_sif409_LEC'] = df_sifoc_409['SIFOC_sif409_LEC']
     scaled_df_409['SetV_409'] = df_sifoc_409['SetV']
     scaled_df_409['Time'] = df_sifoc_409['Time']
