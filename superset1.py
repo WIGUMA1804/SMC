@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from flask import Response
 from bson import json_util
 from flask.json import jsonify
@@ -36,16 +37,24 @@ def superset1(database):
     response_409 = json_util.dumps(data_SIF_409)
     df_sifoc_409 = pd.read_json(response_409)
 
+
+    #data_SIF_401 = pd.read_csv("C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_401.csv")
+    #data_SIF_402 = pd.read_csv("C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_402.csv")
+    #data_SIF_405 = pd.read_csv("C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_405.csv")
+    #data_SIF_407 = pd.read_csv("C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_407.csv")
+    #data_SIF_408 = pd.read_csv("C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_408.csv")
+    #data_SIF_409 = pd.read_csv("C:\DOCTORADO\SEMESTRE8\exportacion\DATOS\SIF_409.csv")
+
     columns = ['MESPAEA_rActivePower', 'MESPAEA_rVoltage',
             'MESPAEA_udiAirConsumed', 'MESPAEA_udiEnergyConsumed']
-    scaled_df_401 = minmax_norm(df_sifoc_401[columns])
+    scaled_df_401 = minmax_norm(data_SIF_401[columns])
     columns1 = ['MESPAEA_rActivePower',
                 'MESPAEA_rVoltage', 'MESPAEA_udiEnergyConsumed']
-    scaled_df_402 = minmax_norm(df_sifoc_402[columns1])
-    scaled_df_405 = minmax_norm(df_sifoc_405[columns1])
-    scaled_df_407 = minmax_norm(df_sifoc_407[columns1])
-    scaled_df_408 = minmax_norm(df_sifoc_408[columns1])
-    scaled_df_409 = minmax_norm(df_sifoc_409[columns1])
+    scaled_df_402 = minmax_norm(data_SIF_402[columns1])
+    scaled_df_405 = minmax_norm(data_SIF_405[columns1])
+    scaled_df_407 = minmax_norm(data_SIF_407[columns1])
+    scaled_df_408 = minmax_norm(data_SIF_408[columns1])
+    scaled_df_409 = minmax_norm(data_SIF_409[columns1])
 
     scaled_df_401.columns = ['MESPAEA_rActivePower_401', 'MESPAEA_rVoltage_401',
                             'MESPAEA_udiAirConsumed_401', 'MESPAEA_udiEnergyConsumed_401']
@@ -103,22 +112,20 @@ def superset1(database):
     scaled_df_409['Alarma_409'] =df_sifoc_409['Alarma']
     scaled_df_409['MESPAEA_rCurrent_409'] =df_sifoc_409['MESPAEA_rCurrent']
     scaled_df_409['MESPAEA_rPowerFactor_409'] =df_sifoc_409['MESPAEA_rPowerFactor']
-    scaled_df_409['SIFOC_sif409_LEC'] = df_sifoc_409['SIFOC_sif409_LEC']
     scaled_df_409['SetV_409'] =df_sifoc_409['SetV']
 
-    scaled_df_401 = scaled_df_401.drop(range(1207, 1209, 1), axis=0)
     scaled_df_402 = scaled_df_402.drop(range(1207, 1226, 1), axis=0)
     scaled_df_405 = scaled_df_405.drop(range(1207, 1222), axis=0)
     scaled_df_407 = scaled_df_407.drop(range(1207, 1221, 1), axis=0)
     scaled_df_408 = scaled_df_408.drop(range(1207, 1224, 1), axis=0)
     scaled_df_409 = scaled_df_409.drop(range(1207, 1229, 1), axis=0)
+    
 
     scaled_df_401['Tiempo'] = np.arange(0, 1207, 1)
 
     df = pd.concat([scaled_df_401, scaled_df_402, scaled_df_405,
                 scaled_df_407, scaled_df_408, scaled_df_409], axis=1)
 
-    print(df.shape)
     data_dict = dict()
     for col in df.columns:
         data_dict[col] = df[col].values.tolist()
