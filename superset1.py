@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from flask import Response
 from bson import json_util
 from flask.json import jsonify
@@ -106,7 +105,7 @@ def superset1(database):
     scaled_df_409['SIFOC_sif409_LEC'] = df_sifoc_409['SIFOC_sif409_LEC']
     scaled_df_409['SetV_409'] =df_sifoc_409['SetV']
 
-    scaled_df_401 = scaled_df_401.drop(range(1207, 1209, 1), axis=0)
+    # scaled_df_401 = scaled_df_401.drop(range(1207, 1209, 1), axis=0)
     scaled_df_402 = scaled_df_402.drop(range(1207, 1226, 1), axis=0)
     scaled_df_405 = scaled_df_405.drop(range(1207, 1222), axis=0)
     scaled_df_407 = scaled_df_407.drop(range(1207, 1221, 1), axis=0)
@@ -118,7 +117,6 @@ def superset1(database):
     df = pd.concat([scaled_df_401, scaled_df_402, scaled_df_405,
                 scaled_df_407, scaled_df_408, scaled_df_409], axis=1)
 
-    print(df.shape)
     data_dict = dict()
     for col in df.columns:
         data_dict[col] = df[col].values.tolist()

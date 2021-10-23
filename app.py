@@ -64,12 +64,12 @@ def data_collections(collection_name):
 #     return superset.get_superset(database.mongo_connect(app))
 
 
-@app.route('/estadistica', methods=['GET'])
-def get_estadistica():
-    data = Estadistica.Basic_Stats()
-    # df_list=data.values.tolist()
-    # json_data=jsonify(df_list)
-    return data
+# @app.route('/estadistica', methods=['GET'])
+# def get_estadistica():
+#     data = Estadistica.Basic_Stats()
+#     # df_list=data.values.tolist()
+#     # json_data=jsonify(df_list)
+#     return data
 # @app.route('/regresion', methods=['GET'])
 # def get_regresion():
 #     data = regresion.Regression()
@@ -77,12 +77,12 @@ def get_estadistica():
 #     # json_data=jsonify(df_list)
 #     return data
 
-@app.route('/Neural_Network', methods=['GET'])
-def get_NN():
-    data = NN.Neural_Network()
-    # df_list=data.values.tolist()
-    # json_data=jsonify(df_list)
-    return data
+# @app.route('/Neural_Network', methods=['GET'])
+# def get_NN():
+#     data = NN.Neural_Network()
+#     # df_list=data.values.tolist()
+#     # json_data=jsonify(df_list)
+#     return data
 @app.route('/superset', methods=['GET'])
 def get_superset():
     # data=superset.get_superset()
