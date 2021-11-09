@@ -83,18 +83,15 @@ def data_collections(collection_name):
 #     # df_list=data.values.tolist()
 #     # json_data=jsonify(df_list)
 #     return data
-@app.route('/superset', methods=['GET'])
-def get_superset():
-    # data=superset.get_superset()
-    # df_list=data.values.tolist()
-    # json_data=jsonify(df_list)
-    return superset1.superset1(database.mongo_connect(app))
+# @app.route('/getsuperset', methods=['GET'])
+# def get_superset():
+#     return superset1.superset1(database.mongo_connect(app))
 
-# @app.route('/superset', methods=['GET'])
-# def get_collections():
-#     return manage_superset.get_collections_superset(database.mongo_connect(app))
-#     # data.headers.add('Access-Control-Allow-Origin', '*')
-#     # return data
+# NUEVO ENDPOINT PARA OBTENER EL SUPERSET
+@app.route('/superset', methods=['GET'])
+def getsuperset():
+    return manage_superset.manage_superset(database.mongo_connect(app))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
