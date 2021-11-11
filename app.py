@@ -70,12 +70,10 @@ def data_collections(collection_name):
 #     # df_list=data.values.tolist()
 #     # json_data=jsonify(df_list)
 #     return data
-# @app.route('/regresion', methods=['GET'])
-# def get_regresion():
-#     data = regresion.Regression()
-#     # df_list=data.values.tolist()
-#     # json_data=jsonify(df_list)
-#     return data
+@app.route('/regresion', methods=['GET'])
+def get_regresion():
+    data = regresion.Regression(database.mongo_connect(app))
+    return data
 
 # @app.route('/Neural_Network', methods=['GET'])
 # def get_NN():
