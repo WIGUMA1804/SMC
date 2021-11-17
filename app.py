@@ -50,29 +50,15 @@ def create_user():
 
 # get method to obtain all information related with a specific collection
 
-
 @app.route('/data/<collection_name>', methods=['GET'])
 def data_collections(collection_name):
     return basic_statistics.get_statistics(collection_name, database.mongo_connect(app))
 
-
-# @app.route('/ ', methods=['GET'])
-# def get_superset():
-#     # data=superset.get_superset()
-#     # df_list=data.values.tolist()
-#     # json_data=jsonify(df_list)
-#     return superset.get_superset(database.mongo_connect(app))
-
-
-# @app.route('/estadistica', methods=['GET'])
-# def get_estadistica():
-#     data = Estadistica.Basic_Stats()
-#     # df_list=data.values.tolist()
-#     # json_data=jsonify(df_list)
-#     return data
-@app.route('/regresion', methods=['GET'])
+@app.route('/regresion', methods=['POST'])
 def get_regresion():
-    data = regresion.Regression(database.mongo_connect(app))
+    inputs = request.json['inputs']
+    output = request.json['output']
+    data = regresion.Regression(database.mongo_connect(app), inputs, output)
     return data
 
 # @app.route('/Neural_Network', methods=['GET'])
