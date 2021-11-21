@@ -22,15 +22,17 @@ def results_summary_to_dataframe(results):
     conf_lower = results.conf_int()[0]
     conf_higher = results.conf_int()[1]
 
-    results_df = pd.DataFrame({'pvals':pvals,
-                               'coeff':coeff,
-                               'conf_lower':conf_lower,
-                               'conf_higher':conf_higher
-                                })
+    results_df = pd.DataFrame({'pvals': pvals,
+                               'coeff': coeff,
+                               'conf_lower': conf_lower,
+                               'conf_higher': conf_higher
+                               })
 
-    #Reordering...
-    results_df = results_df[["coeff","pvals","conf_lower","conf_higher"]].fillna(0)
+    # Reordering...
+    results_df = results_df[["coeff", "pvals",
+                             "conf_lower", "conf_higher"]].fillna(0)
     return results_df
+
 
 def Regression(database, inputs, output):
     print(inputs)
@@ -38,7 +40,7 @@ def Regression(database, inputs, output):
     df = getsuperset.get_superset(database)
     entry = inputs
     out = output
-    
+
     X = df[entry]
     y = df[out]
 
@@ -49,16 +51,19 @@ def Regression(database, inputs, output):
         random_state=1234,
         shuffle=True
     )
-    
+
     X_train = sm.add_constant(X_train, prepend=True)
-    modelo =sm.OLS(endog=y_train.astype(float), exog=X_train.astype(float))
+    modelo = sm.OLS(endog=y_train.astype(float), exog=X_train.astype(float))
     modelo = modelo.fit()
-    
-    dfr=results_summary_to_dataframe(modelo)
-    
+
+    y_train = y_train.flatten()
+    prediccion_train = modelo.predict(exog=X_train)
+    dfr = results_summary_to_dataframe(modelo)
+
     data_dict = dict()
     for col in dfr.columns:
         data_dict[col] = dfr[col].values.tolist()
+    data_dict['y_train'] = y_train
+    data_dict['prediccion_train'] = prediccion_train
     response = json_util.dumps(data_dict)
     return Response(response, mimetype='application/json')
-    
