@@ -58,6 +58,7 @@ def Regression(database, inputs, output):
 
     y_train = y_train.flatten()
     prediccion_train = modelo.predict(exog=X_train)
+    residuos_train = prediccion_train - y_train
     dfr = results_summary_to_dataframe(modelo)
 
     data_dict = dict()
@@ -65,5 +66,6 @@ def Regression(database, inputs, output):
         data_dict[col] = dfr[col].values.tolist()
     data_dict['y_train'] = y_train
     data_dict['prediccion_train'] = prediccion_train
+    data_dict['residuos_train'] = residuos_train
     response = json_util.dumps(data_dict)
     return Response(response, mimetype='application/json')
