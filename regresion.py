@@ -65,7 +65,7 @@ def Regression(database, inputs, output):
     for col in dfr.columns:
         data_dict[col] = dfr[col].values.tolist()
     data_dict['y_train'] = y_train
-    data_dict['prediccion_train'] = prediccion_train
-    data_dict['residuos_train'] = residuos_train
+    data_dict['prediccion_train'] = np.array(prediccion_train)
+    data_dict['residuos_train'] = np.array(residuos_train)
     response = json_util.dumps(data_dict)
     return Response(response, mimetype='application/json')
