@@ -7,7 +7,7 @@ import basic_statistics
 import superset
 import Estadistica
 import regresion
-import NN
+import neuronal
 import superset1
 import manage_superset
 
@@ -61,15 +61,15 @@ def get_regresion():
     data = regresion.Regression(database.mongo_connect(app), inputs, output)
     return data
 
-# @app.route('/Neural_Network', methods=['GET'])
-# def get_NN():
-#     data = NN.Neural_Network()
-#     # df_list=data.values.tolist()
-#     # json_data=jsonify(df_list)
-#     return data
-# @app.route('/getsuperset', methods=['GET'])
-# def get_superset():
-#     return superset1.superset1(database.mongo_connect(app))
+@app.route('/neuronal', methods=['GET'])
+def get_neuronal():
+    # df_list=data.values.tolist()
+    # json_data=jsonify(df_list)
+    data = neuronal.getNeuronal(database.mongo_connect(app))
+    return data
+@app.route('/getsuperset', methods=['GET'])
+def get_superset():
+    return superset1.superset1(database.mongo_connect(app))
 
 # NUEVO ENDPOINT PARA OBTENER EL SUPERSET
 @app.route('/superset', methods=['GET'])
