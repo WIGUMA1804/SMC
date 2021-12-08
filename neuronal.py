@@ -1,9 +1,4 @@
-import pandas as pd
-import getsuperset
-from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPRegressor
-from bson import json_util
-from flask import Response
     
 def getNeuronal(vectors):
     
