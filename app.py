@@ -10,6 +10,9 @@ import regresion
 import neuronal
 import superset1
 import manage_superset
+import neuronal_aux
+import determine_neuronal
+import vector_predict
 
 app = Flask(__name__)
 CORS(app)
@@ -63,10 +66,21 @@ def get_regresion():
 
 @app.route('/neuronal', methods=['GET'])
 def get_neuronal():
-    # df_list=data.values.tolist()
-    # json_data=jsonify(df_list)
-    data = neuronal.getNeuronal(database.mongo_connect(app))
+    data = neuronal_aux.show_results(
+    neuronal.getNeuronal(determine_neuronal.get_vectors(database.mongo_connect(app))),
+    determine_neuronal.get_vectors(database.mongo_connect(app)))
     return data
+
+
+@app.route('/predict', methods=['POST'])
+def get_vector_predict():
+    inputs = request.json['inputs']
+    data = vector_predict.prediction(
+    neuronal.getNeuronal(determine_neuronal.get_vectors(database.mongo_connect(app))),
+    inputs)
+    return data
+
+
 @app.route('/getsuperset', methods=['GET'])
 def get_superset():
     return superset1.superset1(database.mongo_connect(app))
