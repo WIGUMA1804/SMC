@@ -64,11 +64,13 @@ def get_regresion():
     data = regresion.Regression(database.mongo_connect(app), inputs, output)
     return data
 
-@app.route('/neuronal', methods=['GET'])
+@app.route('/neuronal', methods=['POST'])
 def get_neuronal():
+    inputs = request.json['inputs']
+    output = request.json['output']
     data = neuronal_aux.show_results(
-    neuronal.getNeuronal(determine_neuronal.get_vectors(database.mongo_connect(app))),
-    determine_neuronal.get_vectors(database.mongo_connect(app)))
+    neuronal.getNeuronal(determine_neuronal.get_vectors(database.mongo_connect(app), inputs, output)),
+    determine_neuronal.get_vectors(database.mongo_connect(app), inputs, output))
     return data
 
 

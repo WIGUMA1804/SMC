@@ -10,7 +10,7 @@ def show_results(model, vectors):
     
     r2_score = metrics.r2_score(expected_y, predicted_y)
     mean_squared = metrics.mean_squared_log_error(expected_y, predicted_y)
-    model_score = model.score(vectors['X_train_norm'], vectors['y_train_norm'])
+    model_score = model.score(vectors['X_train'], vectors['y_train'])
     model_params = model.get_params(deep=True)
     
     data_dict = dict()
