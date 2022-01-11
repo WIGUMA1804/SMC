@@ -13,6 +13,7 @@ import manage_superset
 import neuronal_aux
 import determine_neuronal
 import vector_predict
+import predict_model
 
 app = Flask(__name__)
 CORS(app)
@@ -91,6 +92,12 @@ def get_superset():
 @app.route('/superset', methods=['GET'])
 def getsuperset():
     return manage_superset.manage_superset(database.mongo_connect(app))
+
+
+@app.route('/modelPredict', methods=['POST'])
+def getModelSaved():
+    vector = request.json['vector']
+    return predict_model.predict_model(vector);
 
 
 if __name__ == "__main__":
